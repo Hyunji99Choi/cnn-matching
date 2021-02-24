@@ -16,9 +16,9 @@ model = D2Net(
     use_cuda=use_cuda
 )
 
-#현지가 임의로 수정
-#device = torch.device("cuda:0" if use_cuda else "cpu")
-device = torch.device("cpu")
+#현지가 임의로 수정하려다가 주석
+device = torch.device("cuda:0" if use_cuda else "cpu")
+#device = torch.device("cpu")
 
 multiscale = True
 max_edge = 2500

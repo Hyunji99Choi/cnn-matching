@@ -58,7 +58,8 @@ class D2Net(nn.Module):
         self.localization = HandcraftedLocalizationModule()
 
         if model_file is not None:
-            #map_location='cpu'
+            #map_location='cpu', cpu만 사용으로 현지가 추가
+            #self.load_state_dict(torch.load(model_file)['model'])
             self.load_state_dict(torch.load(model_file,map_location='cpu')['model'])
 
     def forward(self, batch):
