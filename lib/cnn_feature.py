@@ -15,7 +15,10 @@ model = D2Net(
     use_relu=True,
     use_cuda=use_cuda
 )
-device = torch.device("cuda:0" if use_cuda else "cpu")
+
+#현지가 임의로 수정
+#device = torch.device("cuda:0" if use_cuda else "cpu")
+device = torch.device("cpu")
 
 multiscale = True
 max_edge = 2500
@@ -42,12 +45,14 @@ def cnn_feature_extract(image,scales=[.25, 0.50, 1.0], nfeatures = 1000):
     fact_i = image.shape[0] / resized_image.shape[0]
     fact_j = image.shape[1] / resized_image.shape[1]
 
+    # lib - utils
     input_image = preprocess_image(
         resized_image,
         preprocessing="torch"
     )
     with torch.no_grad():
         if multiscale:
+            # lib - pyramid.py
             keypoints, scores, descriptors = process_multiscale(
                 torch.tensor(
                     input_image[np.newaxis, :, :, :].astype(np.float32),
@@ -73,7 +78,7 @@ def cnn_feature_extract(image,scales=[.25, 0.50, 1.0], nfeatures = 1000):
     keypoints = keypoints[:, [1, 0, 2]]
 
     if nfeatures != -1:
-        #根据scores排序
+        #根据scores排序, scores 정렬하기
         scores2 = np.array([scores]).T
         res = np.hstack((scores2, keypoints))
         res = res[np.lexsort(-res[:, ::-1].T)]
