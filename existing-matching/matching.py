@@ -8,6 +8,10 @@ imgfile1 = '../df-ms-data/1/df-googleearth-1k-20091227.jpg'
 imgfile2 = '../df-ms-data/1/df-googleearth-1k-20181029.jpg'
 imgfile1 = '../df-ms-data/1/df-uav-sar-500.jpg'
 
+#임의로 추가
+imgfile1 = '../df-ms-data/1/df-uav-sar-1k.jpg'
+imgfile2 = '../df-ms-data/1/df-uav-sar-500.jpg'
+
 
 img1 = cv2.imread(imgfile1,0) # queryImage
 img2 = cv2.imread(imgfile2,0) # trainImage
@@ -23,9 +27,12 @@ kp2, des2 = sift.detectAndCompute(img2,None)
 # cnn 기반 매칭 파라미터와 동일
 # Flann特征匹配, Flann 특징 일치(FLANN 기반 매칭)
 FLANN_INDEX_KDTREE = 1
+
 index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
 search_params = dict(checks=40)
+
 flann = cv2.FlannBasedMatcher(index_params, search_params)
+
 # 설정한 FLANN으로 매칭
 matches = flann.knnMatch(des1, des2, k=2)
 
@@ -38,8 +45,10 @@ index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
 search_params = dict(checks=50)   # or pass empty dictionary
 
 flann = cv2.FlannBasedMatcher(index_params,search_params)
+
 matches = flann.knnMatch(des1,des2,k=2)
 '''
+
 
 
 # Need to draw only good matches, so create a mask
@@ -47,7 +56,7 @@ matchesMask = [[0,0] for i in range(len(matches))]
 
 # ratio test as per Lowe's paper
 for i,(m,n) in enumerate(matches):
-    if m.distance < 0.3*n.distance:
+    if m.distance < 0.5*n.distance:
         matchesMask[i]=[1,0]
 
 draw_params = dict(matchColor = (0,255,0),

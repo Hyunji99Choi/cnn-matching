@@ -19,6 +19,11 @@ imgfile2 = 'df-ms-data/1/df-googleearth-1k-20181029.jpg'
 imgfile1 = 'df-ms-data/1/df-uav-sar-500.jpg'
 
 
+#임의로 추가
+imgfile1 = 'df-ms-data/1/df-uav-sar-1k.jpg'
+imgfile2 = 'df-ms-data/1/df-uav-sar-500.jpg'
+
+
 start = time.perf_counter()
 
 # read left image
