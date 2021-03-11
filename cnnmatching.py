@@ -62,6 +62,7 @@ min_dist = 1000
 max_dist = 0
 disdif_avg = 0
 # 统计平均距离差 , 통계평균거리차
+# 매칭 점의 평균 거리차
 for m, n in matches:
     disdif_avg += n.distance - m.distance
 disdif_avg = disdif_avg / len(matches)
