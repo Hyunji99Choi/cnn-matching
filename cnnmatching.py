@@ -20,8 +20,8 @@ imgfile1 = 'df-ms-data/1/df-uav-sar-500.jpg'
 
 
 #임의로 추가
-imgfile1 = 'df-ms-data/1/df-uav-sar-1k.jpg'
-imgfile2 = 'df-ms-data/1/df-uav-sar-500.jpg'
+#imgfile1 = 'df-ms-data/1/df-uav-sar-1k.jpg'
+#imgfile2 = 'df-ms-data/1/df-uav-sar-500.jpg'
 
 
 start = time.perf_counter()
@@ -81,6 +81,13 @@ for m, n in matches:
 print('match num is %d' % len(goodMatch))
 locations_1_to_use = np.array(locations_1_to_use)
 locations_2_to_use = np.array(locations_2_to_use)
+# --------------------------------------------------------
+# 좋은 매칭으로 골라진 매칭점으로 fundmental metrix 출력
+F, mask = cv2.findFundamentalMat(locations_1_to_use,locations_2_to_use,cv2.FM_8POINT);
+print('Fundamental Matrix is ')
+print(F)
+# F행렬 소수점 2번째 자리에서 반올림하기
+# --------------------------------------------------------
 
 # Perform geometric verification using RANSAC.(기하학적 검증)
 # 좋은 매칭으로 찾은 왼쪽, 오른쪽 특징점을 RANSAC을 이용하여 아핀변환으로 검증
@@ -91,7 +98,9 @@ _, inliers = measure.ransac((locations_1_to_use, locations_2_to_use),
                           max_trials=1000)
 
 print('Found %d inliers' % sum(inliers))
-
+# inliner 변수 확인-----------------------
+print(inliers)
+#----------------------------------------
 inlier_idxs = np.nonzero(inliers)[0]
 #最终匹配结果 , 최종 일치 결과
 matches = np.column_stack((inlier_idxs, inlier_idxs))
@@ -121,6 +130,3 @@ ax.axis('off')
 ax.set_title('')
 plt.show()
 
-F, mask = cv2.findFundamentalMat(locations_1_to_use,locations_2_to_use,cv2.FM_8POINT);
-print('Fundamental Matrix is ')
-print(F)
