@@ -120,3 +120,7 @@ plotmatch.plot_matches(
 ax.axis('off')
 ax.set_title('')
 plt.show()
+
+F, mask = cv2.findFundamentalMat(locations_1_to_use,locations_2_to_use,cv2.FM_8POINT);
+print('Fundamental Matrix is ')
+print(F)
