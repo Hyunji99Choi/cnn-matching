@@ -99,8 +99,15 @@ _, inliers = measure.ransac((locations_1_to_use, locations_2_to_use),
 
 print('Found %d inliers' % sum(inliers))
 # inliner 변수 확인-----------------------
-print(inliers)
+#print(inliers)
 #----------------------------------------
+# --------------------------------------------------------
+# ransac으로 골라진 매칭점으로 fundmental metrix 출력, 실패
+F, mask = cv2.findFundamentalMat(locations_1_to_use,locations_2_to_use,cv2.FM_8POINT,inliers);
+print('Fundamental Matrix is ')
+print(F)
+# F행렬 소수점 2번째 자리에서 반올림하기
+# --------------------------------------------------------
 inlier_idxs = np.nonzero(inliers)[0]
 #最终匹配结果 , 최종 일치 결과
 matches = np.column_stack((inlier_idxs, inlier_idxs))
