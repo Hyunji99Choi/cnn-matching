@@ -12,9 +12,9 @@ imgfile1 = '../df-ms-data/1/df-googleearth-1k-20091227.jpg'
 imgfile2 = '../df-ms-data/1/df-googleearth-1k-20181029.jpg'
 imgfile1 = '../df-ms-data/1/df-uav-sar-500.jpg'
 
-#임의로 추가
-#imgfile1 = '../df-ms-data/1/df-uav-sar-1k.jpg'
-#imgfile2 = '../df-ms-data/1/df-uav-sar-500.jpg'
+# 실험을 위해 임의로 추가
+imgfile1 = '../df-ms-data/same_img/view1.png'
+imgfile2 = '../df-ms-data/same_img/view5.png'
 
 
 img1 = cv2.imread(imgfile1,0) # queryImage
