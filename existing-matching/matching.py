@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+import plotmatch
+from skimage import measure
+from skimage import transform
 
 
 MIN_MATCH_COUNT = 10
@@ -48,11 +51,20 @@ matchesMask = [[0,0] for i in range(len(matches))]
 for i,(m,n) in enumerate(matches):
     if m.distance < 0.7*n.distance:
         matchesMask[i]=[1,0]
+        
+draw_params = dict(matchColor = (0,255,0),
+                   singlePointColor = (255,0,0),
+                   matchesMask = matchesMask,
+                   flags = 0)
+
+
+img3 = cv2.drawMatchesKnn(img1,kp1,img2,kp2,matches,None,**draw_params)
+
+plt.imshow(img3,),plt.show()
 '''
 
 
-# cnn 파라미터 -------------
-
+# --------------------------------------------
 # cnn 기반 매칭 파라미터와 동일
 # Flann特征匹配, Flann 특징 일치(FLANN 기반 매칭)
 FLANN_INDEX_KDTREE = 1
@@ -68,38 +80,68 @@ matches = flann.knnMatch(des1, des2, k=2)
 goodMatch = []
 locations_1_to_use = []
 locations_2_to_use = []
-# 匹配对筛选 , 매칭 중에서 선택
+
+
 min_dist = 1000
 max_dist = 0
 disdif_avg = 0
-# 统计平均距离差 , 통계평균거리차
 # 매칭 점의 평균 거리차
 for m, n in matches:
     disdif_avg += n.distance - m.distance
 disdif_avg = disdif_avg / len(matches)
-'''
-# cnn 방식 그대로 사용
-for m, n in matches:
-    #自适应阈值 , 자가 적응 임역
-    # 좋은 matcing 걸러내기
-    if n.distance > m.distance + disdif_avg:
-        goodMatch.append(m)
-'''
+
+print(len(matches))
+print(kp1[0])
+print(type(kp1[0]))
+print(matches[5][0].imgIdx)
+print(type(matches[0][0]))
+
 # cnn 방식으로 수정
-matchesMask = [[0,0] for i in range(len(matches))]
 for i,(m,n) in enumerate(matches):
     if n.distance > m.distance + disdif_avg:
-        matchesMask[i]=[1,0]
-
-#-----------
-
-# 기존
-draw_params = dict(matchColor = (0,255,0),
-                   singlePointColor = (255,0,0),
-                   matchesMask = matchesMask,
-                   flags = 0)
+        goodMatch.append(m)
+        locations_1_to_use.append(kp2[m.trainIdx].pt)
+        locations_2_to_use.append(kp1[m.queryIdx].pt)
 
 
-img3 = cv2.drawMatchesKnn(img1,kp1,img2,kp2,matches,None,**draw_params)
+# --------------------------------------------------------
+# 좋은 매칭으로 골라진 매칭점으로 fundmental metrix 출력
+locations_1_to_use=np.asarray(locations_1_to_use)
+locations_2_to_use=np.asarray(locations_2_to_use)
+F, mask = cv2.findFundamentalMat(locations_1_to_use,locations_2_to_use,cv2.FM_8POINT);
+print('Fundamental Matrix is ')
+print(F)
+# F행렬 소수점 2번째 자리에서 반올림하기
+# --------------------------------------------------------
 
-plt.imshow(img3,),plt.show()
+# ransca
+_, inliers = measure.ransac((locations_1_to_use, locations_2_to_use),
+                          transform.AffineTransform,
+                          min_samples=3,
+                          residual_threshold=30,
+                          max_trials=1000)
+inlier_idxs = np.nonzero(inliers)[0]
+
+
+# Visualize correspondences, and save to file.
+#1 绘制匹配连线, 1 일치하는 연결 그리기
+plt.rcParams['savefig.dpi'] = 100 #图片像素 , 이미지 픽셀
+plt.rcParams['figure.dpi'] = 100 #分辨率 , 해상도
+plt.rcParams['figure.figsize'] = (4.0, 3.0) # 设置figure_size尺寸 , figure_size 크기 설정
+_, ax = plt.subplots()
+plotmatch.plot_matches(
+    ax,
+    img1,
+    img2,
+    locations_1_to_use,
+    locations_2_to_use,
+    np.column_stack((inlier_idxs, inlier_idxs)),
+    # 매칭 안된 포인트 안 그리기
+    #plot_matche_points = False,
+    # 매칭 안된 포인트 그리기
+    plot_matche_points = True,
+    matchline = True,
+    matchlinewidth = 0.3)
+ax.axis('off')
+ax.set_title('')
+plt.show()
