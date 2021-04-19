@@ -87,6 +87,7 @@ F, mask = cv2.findFundamentalMat(locations_1_to_use,locations_2_to_use,cv2.FM_8P
 print('Fundamental Matrix is ')
 print(F)
 # F행렬 소수점 2번째 자리에서 반올림하기
+print(np.round(F,2))
 # --------------------------------------------------------
 
 # Perform geometric verification using RANSAC.(기하학적 검증)

@@ -105,6 +105,8 @@ for i,(m,n) in enumerate(matches):
 
 
 # --------------------------------------------------------
+# 좋은 매칭으로 골라진 매칭점 개수 출력
+print('match num is %d' % len(goodMatch))
 # 좋은 매칭으로 골라진 매칭점으로 fundmental metrix 출력
 locations_1_to_use=np.asarray(locations_1_to_use)
 locations_2_to_use=np.asarray(locations_2_to_use)
@@ -112,6 +114,7 @@ F, mask = cv2.findFundamentalMat(locations_1_to_use,locations_2_to_use,cv2.FM_8P
 print('Fundamental Matrix is ')
 print(F)
 # F행렬 소수점 2번째 자리에서 반올림하기
+print(np.round(F,2))
 # --------------------------------------------------------
 
 # ransca
@@ -121,7 +124,7 @@ _, inliers = measure.ransac((locations_1_to_use, locations_2_to_use),
                           residual_threshold=30,
                           max_trials=1000)
 inlier_idxs = np.nonzero(inliers)[0]
-
+print('Found %d inliers' % sum(inliers))
 
 # Visualize correspondences, and save to file.
 #1 绘制匹配连线, 1 일치하는 연결 그리기
