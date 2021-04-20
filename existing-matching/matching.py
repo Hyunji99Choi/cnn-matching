@@ -1,4 +1,5 @@
 import cv2
+import imageio
 import numpy as np
 from matplotlib import pyplot as plt
 import plotmatch
@@ -16,9 +17,15 @@ imgfile1 = '../df-ms-data/1/df-uav-sar-500.jpg'
 imgfile1 = '../df-ms-data/same_img/view1.png'
 imgfile2 = '../df-ms-data/same_img/view5.png'
 
+## 비교 실험 논문
+imgfile1 = '../df-ms-data/same_img/view1_5.png'
+imgfile2 = '../df-ms-data/same_img/view5_5.png'
 
-img1 = cv2.imread(imgfile1,0) # queryImage
-img2 = cv2.imread(imgfile2,0) # trainImage
+
+img1 = imageio.imread(imgfile1)  # queryImage
+img2 = imageio.imread(imgfile2) # trainImage
+#img1 = cv2.imread(imgfile1) # queryImage
+#img2 = cv2.imread(imgfile2) # trainImage
 
 # Initiate SIFT detector
 sift = cv2.xfeatures2d.SIFT_create()
@@ -100,8 +107,8 @@ print(type(matches[0][0]))
 for i,(m,n) in enumerate(matches):
     if n.distance > m.distance + disdif_avg:
         goodMatch.append(m)
-        locations_1_to_use.append(kp2[m.trainIdx].pt)
-        locations_2_to_use.append(kp1[m.queryIdx].pt)
+        locations_2_to_use.append(kp2[m.trainIdx].pt)
+        locations_1_to_use.append(kp1[m.queryIdx].pt)
 
 
 # --------------------------------------------------------

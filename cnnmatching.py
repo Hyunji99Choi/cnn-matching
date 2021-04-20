@@ -23,6 +23,10 @@ imgfile1 = 'df-ms-data/1/df-uav-sar-500.jpg'
 imgfile1 = 'df-ms-data/same_img/view1.png'
 imgfile2 = 'df-ms-data/same_img/view5.png'
 
+## 비교 실험 논문
+imgfile1 = 'df-ms-data/same_img/view1_5.png'
+imgfile2 = 'df-ms-data/same_img/view5_5.png'
+
 
 start = time.perf_counter()
 
@@ -81,7 +85,7 @@ for m, n in matches:
 print('match num is %d' % len(goodMatch))
 locations_1_to_use = np.array(locations_1_to_use)
 locations_2_to_use = np.array(locations_2_to_use)
-# --------------------------------------------------------
+# -------------------------------------------------------
 # 좋은 매칭으로 골라진 매칭점으로 fundmental metrix 출력
 F, mask = cv2.findFundamentalMat(locations_1_to_use,locations_2_to_use,cv2.FM_8POINT);
 print('Fundamental Matrix is ')
