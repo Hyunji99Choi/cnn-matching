@@ -1,5 +1,4 @@
 import cv2
-import imageio
 import numpy as np
 from matplotlib import pyplot as plt
 import plotmatch
@@ -107,8 +106,8 @@ print(type(matches[0][0]))
 for i,(m,n) in enumerate(matches):
     if n.distance > m.distance + disdif_avg:
         goodMatch.append(m)
-        locations_2_to_use.append(kp2[m.trainIdx].pt)
-        locations_1_to_use.append(kp1[m.queryIdx].pt)
+        locations_1_to_use.append(kp2[m.trainIdx].pt)
+        locations_2_to_use.append(kp1[m.queryIdx].pt)
 
 
 # --------------------------------------------------------
