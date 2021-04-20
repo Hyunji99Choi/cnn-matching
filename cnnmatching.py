@@ -23,6 +23,9 @@ imgfile1 = 'df-ms-data/1/df-uav-sar-500.jpg'
 imgfile1 = 'df-ms-data/same_img/view1.png'
 imgfile2 = 'df-ms-data/same_img/view5.png'
 
+# 논문 비교 실험을 위해 추가
+imgfile1 = 'df-ms-data/same_img/view1_1.png'
+imgfile2 = 'df-ms-data/same_img/view5_1.png'
 
 start = time.perf_counter()
 
