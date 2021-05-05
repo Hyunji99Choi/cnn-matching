@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 import plotmatch
+import imageio
 from skimage import measure
 from skimage import transform
 
@@ -17,14 +18,20 @@ imgfile1 = '../df-ms-data/same_img/view1.png'
 imgfile2 = '../df-ms-data/same_img/view5.png'
 
 ## 비교 실험 논문
-imgfile1 = '../df-ms-data/same_img/view1_5.png'
-imgfile2 = '../df-ms-data/same_img/view5_5.png'
+#imgfile1 = '../df-ms-data/same_img/view1_5.png'
+#imgfile2 = '../df-ms-data/same_img/view5_5.png'
 
 
 img1 = imageio.imread(imgfile1)  # queryImage
 img2 = imageio.imread(imgfile2) # trainImage
 #img1 = cv2.imread(imgfile1) # queryImage
 #img2 = cv2.imread(imgfile2) # trainImage
+
+
+## 이미지 손상
+x= 100; y=100; w=160; h=160;
+img2[y:y+h,x:x+w] = 0
+
 
 # Initiate SIFT detector
 sift = cv2.xfeatures2d.SIFT_create()
@@ -106,8 +113,8 @@ print(type(matches[0][0]))
 for i,(m,n) in enumerate(matches):
     if n.distance > m.distance + disdif_avg:
         goodMatch.append(m)
-        locations_1_to_use.append(kp2[m.trainIdx].pt)
-        locations_2_to_use.append(kp1[m.queryIdx].pt)
+        locations_1_to_use.append(kp1[m.queryIdx].pt) # 이상... 주의 깊게 살피기
+        locations_2_to_use.append(kp2[m.trainIdx].pt)
 
 
 # --------------------------------------------------------

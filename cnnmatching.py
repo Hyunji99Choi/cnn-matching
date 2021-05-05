@@ -9,6 +9,9 @@ import time
 from skimage import measure
 from skimage import transform
 
+import numpy as np
+
+
 #time count
 start = time.perf_counter()
 
@@ -24,8 +27,9 @@ imgfile1 = 'df-ms-data/same_img/view1.png'
 imgfile2 = 'df-ms-data/same_img/view5.png'
 
 ## 비교 실험 논문
-imgfile1 = 'df-ms-data/same_img/view1_5.png'
-imgfile2 = 'df-ms-data/same_img/view5_5.png'
+#imgfile1 = 'df-ms-data/same_img/view1_5.png'
+#imgfile2 = 'df-ms-data/same_img/view5_5.png'
+
 
 
 start = time.perf_counter()
@@ -33,6 +37,13 @@ start = time.perf_counter()
 # read left image
 image1 = imageio.imread(imgfile1)
 image2 = imageio.imread(imgfile2)
+
+
+## 이미지 손상
+x= 100; y=100; w=160; h=160;
+image2[y:y+h,x:x+w] = 0
+
+
 
 # 이미지를 읽어오는데 걸린 시간
 print('read image time is %6.3f' % (time.perf_counter() - start))
