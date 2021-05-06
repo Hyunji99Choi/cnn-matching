@@ -40,7 +40,9 @@ image2 = imageio.imread(imgfile2)
 
 
 ## 이미지 손상
-x= 100; y=100; w=160; h=160;
+ih, iw, ic = image2.shape
+x= iw//2-160; y=ih//2-160; w=160; h=160;
+#x= 100; y=100; w=160; h=160;
 image2[y:y+h,x:x+w] = 0
 
 
