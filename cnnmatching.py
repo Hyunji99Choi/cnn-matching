@@ -27,8 +27,8 @@ imgfile1 = 'df-ms-data/same_img/view1.png'
 imgfile2 = 'df-ms-data/same_img/view5.png'
 
 ## 비교 실험 논문
-#imgfile1 = 'df-ms-data/same_img/view1_5.png'
-#imgfile2 = 'df-ms-data/same_img/view5_5.png'
+#imgfile1 = 'df-ms-data/same_img/view1_1.png'
+#imgfile2 = 'df-ms-data/same_img/view5_1.png'
 
 
 
@@ -104,7 +104,7 @@ F, mask = cv2.findFundamentalMat(locations_1_to_use,locations_2_to_use,cv2.FM_8P
 print('Fundamental Matrix is ')
 print(F)
 # F행렬 소수점 2번째 자리에서 반올림하기
-print(np.round(F,2))
+print(np.round(F,3))
 # --------------------------------------------------------
 
 # Perform geometric verification using RANSAC.(기하학적 검증)
