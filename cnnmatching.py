@@ -27,8 +27,8 @@ imgfile1 = 'df-ms-data/same_img/view1.png'
 imgfile2 = 'df-ms-data/same_img/view5.png'
 
 ## 비교 실험 논문
-#imgfile1 = 'df-ms-data/same_img/view1_1.png'
-#imgfile2 = 'df-ms-data/same_img/view5_1.png'
+imgfile1 = 'df-ms-data/same_img/view1_4.png'
+imgfile2 = 'df-ms-data/same_img/view5_4.png'
 
 
 

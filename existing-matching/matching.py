@@ -28,6 +28,8 @@ img2 = imageio.imread(imgfile2) # trainImage
 #img2 = cv2.imread(imgfile2) # trainImage
 
 
+## 이미지 크기
+print(img2.shape)
 ## 이미지 손상
 ih, iw, ic = img2.shape
 x= iw//2-160; y=ih//2-160; w=160; h=160;
